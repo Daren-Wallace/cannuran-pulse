@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pulse_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.14"
+            android:text="CANNURAN PULSE"
+            android:textColor="@color/pulse_gold"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Claude news desk for NQ / ES — on your lock screen"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/text_secondary"
+                android:textIsSelectable="true"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/preview_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/text_primary"
+                android:textIsSelectable="true"
+                android:textSize="13.5sp" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            style="@style/Pulse.Button.Primary"
+            android:text="Refresh now" />
+        </LinearLayout>
+
+        <TextView style="@style/Pulse.Section" android:text="1 · Claude API key" />
+        <TextView
+            android:id="@+id/key_state"
+            style="@style/Pulse.Hint" />
+        <EditText
+            android:id="@+id/api_key"
+            style="@style/Pulse.Input"
+            android:hint="sk-ant-…"
+            android:inputType="textPassword" android:singleLine="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_save_key"
+                style="@style/Pulse.Button.Primary"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Save key" />
+            <Button
+                android:id="@+id/btn_clear_key"
+                style="@style/Pulse.Button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="Remove key" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_console"
+            style="@style/Pulse.Button"
+            android:text="Get a key at console.anthropic.com" />
+        <TextView style="@style/Pulse.Hint" android:text="Web search must be enabled for your organization in the Claude Console (Settings → Privacy / Features). The key is encrypted with the Android Keystore and only ever sent to api.anthropic.com." />
+        <TextView style="@style/Pulse.Section" android:text="2 · Model and cost" />
+        <RadioGroup
+            android:id="@+id/model_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/model_sonnet" style="@style/Pulse.Radio" />
+            <RadioButton android:id="@+id/model_haiku" style="@style/Pulse.Radio" />
+            <RadioButton android:id="@+id/model_opus" style="@style/Pulse.Radio" />
+        </RadioGroup>
+        <TextView android:id="@+id/cost_estimate" style="@style/Pulse.Hint" />
+        <TextView style="@style/Pulse.Section" android:text="3 · Schedule (your local time)" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Active from (hour)" />
+                <EditText
+                    android:id="@+id/active_start"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="10"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Active until (hour)" />
+                <EditText
+                    android:id="@+id/active_end"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="1"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Every N min (active)" />
+                <EditText
+                    android:id="@+id/active_cadence"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="60"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Every N min (off-hours, 0=off)" />
+                <EditText
+                    android:id="@+id/off_cadence"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="240"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Weekend every N min (0=off)" />
+                <EditText
+                    android:id="@+id/weekend_cadence"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Max web searches / brief" />
+                <EditText
+                    android:id="@+id/max_searches"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="5"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <Switch
+            android:id="@+id/event_mode"
+            style="@style/Pulse.Switch"
+            android:text="Event mode: brief every 15 min from 45 min before to 30 min after each high-impact release" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Heads-up N min before release (0=off)" />
+                <EditText
+                    android:id="@+id/pre_alert"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="10"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Fresh brief N min after release (0=off)" />
+                <EditText
+                    android:id="@+id/post_brief"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="3"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Look-back window (hours)" />
+                <EditText
+                    android:id="@+id/lookback"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="12"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+                <TextView style="@style/Pulse.Label" android:text="Event-mode cadence (min)" />
+                <EditText
+                    android:id="@+id/event_cadence"
+                    style="@style/Pulse.Input.Half"
+                    android:hint="15"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <TextView style="@style/Pulse.Section" android:text="4 · What matters to you" />
+        <TextView style="@style/Pulse.Label" android:text="Desk context sent to Claude (edit freely)" />
+        <EditText
+            android:id="@+id/focus"
+            style="@style/Pulse.Input"
+            android:hint="Who you are, what you trade, what moves you"
+            android:inputType="textMultiLine|textCapSentences" android:minLines="4" android:gravity="top" />
+        <TextView style="@style/Pulse.Label" android:text="Quote symbols (Yahoo format, comma separated)" />
+        <EditText
+            android:id="@+id/symbols"
+            style="@style/Pulse.Input"
+            android:hint="NQ=F, ES=F, ^VIX, CL=F"
+            android:inputType="text" android:singleLine="true" />
+        <TextView style="@style/Pulse.Label" android:text="Calendar currencies" />
+        <EditText
+            android:id="@+id/currencies"
+            style="@style/Pulse.Input"
+            android:hint="USD"
+            android:inputType="text" android:singleLine="true" />
+        <Switch
+            android:id="@+id/include_medium"
+            style="@style/Pulse.Switch"
+            android:text="Include Medium-impact releases in the calendar context" />
+        <TextView style="@style/Pulse.Label" android:text="CCH catalyst keywords (arm the CCH chip on these release days)" />
+        <EditText
+            android:id="@+id/cch_keywords"
+            style="@style/Pulse.Input"
+            android:hint="FOMC, CPI, Non-Farm, Fed Chair, PCE"
+            android:inputType="text" android:singleLine="true" />
+        <TextView style="@style/Pulse.Section" android:text="5 · Lock screen and alerts" />
+        <Switch
+            android:id="@+id/ongoing_card"
+            style="@style/Pulse.Switch"
+            android:text="Persistent lock-screen card (always visible, silent)" />
+        <Switch
+            android:id="@+id/alert_high"
+            style="@style/Pulse.Switch"
+            android:text="Alert me on new HIGH-impact headlines" />
+        <Switch
+            android:id="@+id/translucent"
+            style="@style/Pulse.Switch"
+            android:text="Translucent widget background" />
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/Pulse.Button.Primary"
+            android:text="Save settings" />
+        <Button
+            android:id="@+id/btn_lockscreen_help"
+            style="@style/Pulse.Button"
+            android:text="How to put Pulse on the lock screen" />
+        <Button
+            android:id="@+id/btn_notif"
+            style="@style/Pulse.Button"
+            android:text="Allow notifications" />
+        <Button
+            android:id="@+id/btn_battery"
+            style="@style/Pulse.Button"
+            android:text="Disable battery optimisation (keeps refreshes alive)" />
+        <Button
+            android:id="@+id/btn_exact"
+            style="@style/Pulse.Button"
+            android:text="Allow precise alarms (exact pre-release heads-ups)" />
+        <TextView
+            android:id="@+id/footer_text"
+            style="@style/Pulse.Hint"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp" />
+    </LinearLayout>
+</ScrollView>

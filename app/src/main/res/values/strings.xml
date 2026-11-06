@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cannuran Pulse</string>
+    <string name="widget_name">Cannuran Pulse</string>
+    <string name="widget_description">Claude-curated NQ/ES news, risk, CCH flag and the next high-impact release — built for the lock screen.</string>
+    <string name="widget_brand">CANNURAN PULSE</string>
+    <string name="widget_placeholder_bias">Claude news brief for NQ / ES</string>
+    <string name="widget_placeholder_footer">Open Pulse to add your Claude API key</string>
+    <string name="cch_armed">CCH</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="refreshing">Refreshing Pulse…</string>
+
+    <string name="channel_card">Lock-screen card</string>
+    <string name="channel_card_desc">Persistent, silent brief that stays on the lock screen</string>
+    <string name="channel_alert">Market alerts</string>
+    <string name="channel_alert_desc">New HIGH-impact headlines and pre-release heads-ups</string>
+    <string name="channel_work">Background refresh</string>
+
+    <string name="lockscreen_help_title">Put Pulse on your lock screen</string>
+    <string name="lockscreen_help_body">Option A: One UI lock screen\n1. Lock the phone, wake the screen, and long-press an empty area of the lock screen (or Settings → Wallpaper and style → Lock screen).\n2. Tap the widget area → look for Cannuran Pulse in the list.\n\nOption B: Good Lock → LockStar (always works on Galaxy)\n1. Install Good Lock from the Galaxy Store, then add the LockStar module.\n2. Turn LockStar on → tap the lock-screen preview → Widgets / Add widget → Cannuran Pulse.\n3. Resize it to about 4×3 cells for the full view.\n\nOption C: the lock-screen card (no setup)\nKeep \"Persistent lock-screen card\" on. It stays on the lock screen and updates with every brief.\n\nKeep it alive\n• Settings → Apps → Cannuran Pulse → Battery → Unrestricted (button below).\n• Settings → Notifications → Lock screen notifications → show content, so the card isn\'t hidden.</string>
+</resources>

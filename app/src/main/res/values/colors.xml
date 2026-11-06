@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pulse_bg">#FF0B0F14</color>
+    <color name="pulse_surface">#FF141A22</color>
+    <color name="pulse_gold">#FFC9A227</color>
+    <color name="text_primary">#FFF5F7FA</color>
+    <color name="text_secondary">#FFCBD2D9</color>
+    <color name="text_muted">#FF8A94A3</color>
+    <color name="divider">#26FFFFFF</color>
+    <color name="chip_dark_text">#FF14110A</color>
+    <color name="up">#FF48BB78</color>
+    <color name="down">#FFF56565</color>
+    <color name="risk_low">#FF1F7A4D</color>
+    <color name="risk_elevated">#FFB7791F</color>
+    <color name="risk_high">#FFC53030</color>
+    <color name="impact_high">#FFF56565</color>
+    <color name="impact_med">#FFECC94B</color>
+    <color name="impact_low">#FF718096</color>
+    <color name="stale">#FFECC94B</color>
+</resources>

@@ -1,0 +1,75 @@
+name: Build Cannuran Pulse APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # publish the APK as a GitHub Release
+
+concurrency:
+  group: pulse-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Make wrapper executable
+        run: chmod +x gradlew
+
+      - name: Unit tests (core logic)
+        run: ./gradlew --no-daemon --stacktrace testDebugUnitTest
+
+      - name: Use private signing key if provided
+        env:
+          KS_B64: ${{ secrets.PULSE_KEYSTORE_BASE64 }}
+        if: env.KS_B64 != ''
+        run: |
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/pulse.jks"
+          echo "PULSE_KEYSTORE_PATH=$RUNNER_TEMP/pulse.jks" >> "$GITHUB_ENV"
+
+      - name: Build signed release APK
+        env:
+          PULSE_KEYSTORE_PASSWORD: ${{ secrets.PULSE_KEYSTORE_PASSWORD }}
+          PULSE_KEY_ALIAS: ${{ secrets.PULSE_KEY_ALIAS }}
+          PULSE_KEY_PASSWORD: ${{ secrets.PULSE_KEY_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon --stacktrace assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk CannuranPulse.apk
+          sha256sum CannuranPulse.apk | tee CannuranPulse.apk.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CannuranPulse-apk
+          path: |
+            CannuranPulse.apk
+            CannuranPulse.apk.sha256
+          if-no-files-found: error
+
+      - name: Publish release (stable download link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pulse-v1.0.${{ github.run_number }}
+          name: Cannuran Pulse 1.0.${{ github.run_number }}
+          body: |
+            Sideload build for Android 8+ (tested target: Galaxy S24 Ultra, One UI 8).
+            Install: open this page on the phone → tap CannuranPulse.apk → allow "Install unknown apps" for your browser.
+            Always-latest link: https://github.com/${{ github.repository }}/releases/latest/download/CannuranPulse.apk
+          files: |
+            CannuranPulse.apk
+            CannuranPulse.apk.sha256
+          make_latest: true

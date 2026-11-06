@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  keyguard category: lets launchers / lock-screen hosts that honour it (One UI lock screen where
+  third-party widgets are allowed, Good Lock LockStar, Lockscreen Widgets) list this widget.
+  No updatePeriodMillis: WorkManager + alarms drive updates so we control cost and timing.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_description"
+    android:initialKeyguardLayout="@layout/widget_pulse"
+    android:initialLayout="@layout/widget_pulse"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="80dp"
+    android:previewLayout="@layout/widget_pulse"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen|keyguard" />
