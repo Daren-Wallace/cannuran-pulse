@@ -136,4 +136,11 @@ class EngineTest {
         assertEquals(0.1 + 0.05 + 0.05, l3.costUsd, 1e-9)
         assertEquals(l3, UsageLedger.fromJson(l3.toJson()))
     }
+
+    @Test fun creditExhaustionIsExplainedPlainly() {
+        val body = """{"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."}}"""
+        val out = engine(routes { HttpResult(400, body) }).refresh(Snapshot(), Settings(), "k", true, "manual")
+        assertFalse(out.briefed)
+        assertTrue(out.snapshot.briefError!!.startsWith("Out of API credits"))
+    }
 }

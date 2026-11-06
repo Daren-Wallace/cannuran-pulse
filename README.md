@@ -184,6 +184,7 @@ tools/         run-core-tests.sh, check-android-compile.sh, Android API stubs, J
 | Footer / status says | Fix |
 |---|---|
 | `API key rejected` | Re-paste the key, which must start with `sk-ant-` |
+| `Out of API credits` | API usage is prepaid and separate from a Claude.ai subscription. Add credits (and ideally auto-reload) in the Claude Console → Billing for the same organization as the key, then tap Refresh |
 | `Enable web search for your org…` | Turn on web search in the Claude Console |
 | `Rate limited` / `overloaded` | Nothing to do. The next cycle retries and the previous brief stays on screen |
 | `STALE · Updated …` | Battery optimisation is killing refreshes. Tap *Disable battery optimisation*, or set Battery → Unrestricted |

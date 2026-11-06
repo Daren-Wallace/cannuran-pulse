@@ -95,6 +95,10 @@ object ClaudeProtocol {
     /** Human-readable explanation for an HTTP failure, shown on the widget footer and in settings. */
     fun describeHttpError(status: Int, body: String?): String {
         val detail = try { body?.let { errorMessage(Json.parseObject(it)) } } catch (e: RuntimeException) { null }
+        if (detail?.contains("credit balance", true) == true) {
+            // Billing, not a bug: the key's organization has no prepaid API credit.
+            return "Out of API credits — add credits in Claude Console → Billing, then tap Refresh"
+        }
         val hint = when (status) {
             400 -> if (detail?.contains("web search", true) == true || detail?.contains("web_search", true) == true)
                 "Enable web search for your org in the Claude Console" else "Bad request"
