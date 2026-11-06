@@ -9,34 +9,22 @@ Galaxy S24 Ultra (One UI 8 / Android 16) lock screen. The app has three surfaces
 It calls the Anthropic Messages API with the `web_search_20250305` server tool directly from the phone, using
 the user's own API key. No backend. See README.md for the full feature, cost and setup write-up.
 
-## Status at handoff (built in a claude.ai cloud session, 2026-11-06)
-- DONE: all source, resources, manifest, Gradle (AGP 8.11.1, Kotlin 2.2.0, Gradle 8.14.3 wrapper,
-  compileSdk/targetSdk 36, minSdk 26), GitHub Actions workflow, README, sideload keystore.
-- VERIFIED: 46 JUnit tests over `core/` pass (run with a local JUnit shim, `tools/run-core-tests.sh`).
-  The Android layer type-checks against hand-written API stubs (`tools/check-android-compile.sh`).
-- NOT YET VERIFIED: a real Gradle build against the Android SDK. The cloud sandbox couldn't reach
-  maven.google.com / dl.google.com. **The first job here is to make `./gradlew assembleRelease
-  testDebugUnitTest` pass for real.** Expect at most small API or signature fixes in `data/`, `work/`,
-  `widget/`, `notify/` and `ui/`. `core/` is plain Kotlin and already tested.
-- NOT YET DONE: pushing to GitHub. GitHub user is `Daren-Wallace`. Plan: a new **private** repo
-  `cannuran-pulse`, then push `main`. The workflow builds, tests and publishes `CannuranPulse.apk` as a
-  Release with a stable `releases/latest/download/CannuranPulse.apk` link to install from the phone.
+## Status (2026-11-06)
+- Repo: github.com/Daren-Wallace/cannuran-pulse (`main`). CI is green on ubuntu-24.04 with the runner's
+  preinstalled Android SDK: 46 unit tests pass, and a signed release APK is published on every push.
+- Install link (always latest): https://github.com/Daren-Wallace/cannuran-pulse/releases/latest/download/CannuranPulse.apk
+- Not yet verified on device:
+  - One UI 8 native lock-screen listing (otherwise use Good Lock → LockStar)
+  - Now Bar promotion of the Live Update
+  - prompt quality on real briefs
+- Security: the repo is PUBLIC and commits `signing/pulse-sideload.jks`. Either make the repo private,
+  or move to repo secrets (`PULSE_KEYSTORE_BASE64` etc.; see README → Security).
 
-## Next steps, in order
-1. Build locally if an Android SDK is present (Android Studio / `~/.android` exists on this PC; set
-   `sdk.dir` in `local.properties` or `ANDROID_HOME`). Otherwise, push and let CI build.
-   Run `./gradlew testDebugUnitTest assembleRelease` and fix anything that fails.
-2. `gh repo create Daren-Wallace/cannuran-pulse --private --source . --push`
-   (the repo is already `git init`ed with one commit on `main`).
-3. Watch the workflow (`gh run watch`) until it's green. Confirm the Release has `CannuranPulse.apk`.
-4. Darenn installs it on the phone, then:
-   - pastes his API key and enables web search in the Claude Console
-   - sets battery to Unrestricted and allows precise alarms
-   - adds the widget via One UI lock screen or Good Lock → LockStar
-5. Later, nice-to-haves:
-   - verify on-device that One UI 8 lists the widget natively (category `keyguard`)
-   - check whether the Android 16 Live Update promotion shows in the Now Bar
-   - tune the prompt from real briefs
+## Next steps
+1. Darenn installs the APK and adds his API key (web search must be enabled in the Console).
+   He sets Battery → Unrestricted, allows precise alarms, and adds the widget.
+2. Iterate from real briefs: prompt in `core/Prompt.kt`, parsing in `core/BriefParser.kt`, layout in
+   `res/layout/widget_pulse.xml`. Run `./gradlew testDebugUnitTest` before every push.
 
 ## Architecture (where things live)
 - `app/src/main/java/capital/cannuran/pulse/core/`: platform-free and unit-tested. This is where all logic
