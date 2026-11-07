@@ -15,6 +15,14 @@ enum class ClaudeModel(val id: String, val label: String, val inputPerM: Double,
     }
 }
 
+/** Widget look. DYNAMIC follows the wallpaper's Material You palette on Android 12+. */
+enum class WidgetTheme(val label: String) {
+    MIDNIGHT("Midnight"), GLASS("Glass"), DYNAMIC("Material You");
+    companion object {
+        fun parse(s: String?): WidgetTheme = entries.firstOrNull { it.name.equals(s, true) } ?: MIDNIGHT
+    }
+}
+
 const val DEFAULT_FOCUS = """Solo prop futures trader (Cannuran Capital Trading, Nairobi, UTC+3) trading NQ and ES on funded prop accounts with an ICT discretionary method, mainly London and New York AM sessions.
 Runs a NAS100 CFD hedge (Cannuran Hedge Protocol). Its Contingent Catalyst Hedge (CCH) sits at zero lots and activates only for scheduled high-impact catalysts (FOMC, CPI, NFP, PCE, Fed Chair testimony/speeches) and major geopolitical shocks (e.g. Iran / Strait of Hormuz).
 Care most about: Fed path and Fed speakers, US data surprises vs forecast, Treasury yields and the dollar, mega-cap tech and semis (NVDA, MSFT, AAPL, AMZN, META, GOOGL, AVGO, TSLA) earnings/guidance/AI capex, tariffs and trade policy, oil and geopolitics, US fiscal/shutdown risk, and anything that changes intraday volatility for NQ/ES."""
@@ -50,7 +58,7 @@ data class Settings(
     val preEventAlertMin: Int = 10,
     /** Minutes after a high-impact release to pull a fresh brief with the print. 0 = off. */
     val postEventBriefMin: Int = 3,
-    val translucentWidget: Boolean = false,
+    val theme: WidgetTheme = WidgetTheme.MIDNIGHT,
 ) {
     fun toJson(): String = Json.stringify(linkedMapOf(
         "model" to model.id,
@@ -63,7 +71,7 @@ data class Settings(
         "includeMedium" to includeMedium, "cchKeywords" to cchKeywords,
         "ongoingCard" to ongoingCard, "alertNewHigh" to alertNewHigh,
         "preEventAlertMin" to preEventAlertMin, "postEventBriefMin" to postEventBriefMin,
-        "translucentWidget" to translucentWidget,
+        "theme" to theme.name,
     ))
 
     /** Clamp everything to sane bounds so a typo in the settings screen can't run up a bill. */
@@ -112,7 +120,9 @@ data class Settings(
                     alertNewHigh = m.bool("alertNewHigh") ?: d.alertNewHigh,
                     preEventAlertMin = m.long("preEventAlertMin")?.toInt() ?: d.preEventAlertMin,
                     postEventBriefMin = m.long("postEventBriefMin")?.toInt() ?: d.postEventBriefMin,
-                    translucentWidget = m.bool("translucentWidget") ?: d.translucentWidget,
+                    // v1.0 stored a translucent flag; it maps to the Glass theme.
+                    theme = m.str("theme")?.let(WidgetTheme::parse)
+                        ?: if (m.bool("translucentWidget") == true) WidgetTheme.GLASS else d.theme,
                 ).sanitized()
             } catch (e: RuntimeException) {
                 d

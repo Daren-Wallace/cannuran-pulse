@@ -30,10 +30,16 @@ object QuoteParser {
         val price = meta.num("regularMarketPrice") ?: lastClose(result) ?: return null
         val prev = meta.num("previousClose") ?: meta.num("chartPreviousClose")
         val pct = if (prev != null && prev != 0.0) (price - prev) / prev * 100.0 else null
-        return Quote(symbol = symbol, label = label(symbol), price = price, changePct = pct)
+        val closes = closes(result)
+        val spark = Sparkline.downsample(closes, SPARK_POINTS).let { if (it.isNotEmpty() && it.last() != price) it + price else it }
+        return Quote(symbol = symbol, label = label(symbol), price = price, changePct = pct, spark = spark)
     }
 
-    private fun lastClose(result: Map<String, Any?>): Double? =
+    const val SPARK_POINTS = 40
+
+    private fun closes(result: Map<String, Any?>): List<Double> =
         result.obj("indicators")?.arr("quote")?.objects()?.firstOrNull()
-            ?.arr("close")?.lastOrNull { it is Number }?.let { (it as Number).toDouble() }
+            ?.arr("close")?.mapNotNull { (it as? Number)?.toDouble() }.orEmpty()
+
+    private fun lastClose(result: Map<String, Any?>): Double? = closes(result).lastOrNull()
 }

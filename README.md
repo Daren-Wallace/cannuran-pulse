@@ -52,12 +52,14 @@ in `app/build/outputs/apk/release/`.
 ## 2. First run (2 minutes)
 
 1. Open **Cannuran Pulse** and allow notifications.
-2. **API key.** Create one at console.anthropic.com → API keys, paste it in, and tap **Save key**.
-   Web search must be enabled for your organization in the Console. If it isn't, the footer will tell you.
-3. Tap **Disable battery optimisation**. Samsung aggressively kills background work, and this is the difference
-   between a live widget and a stale one.
-4. Tap **Allow precise alarms**, so pre-release heads-ups fire on the minute even in Doze.
-5. Your first brief arrives within about a minute.
+2. **API key.** Tap **Get a key**, create one in the Claude Console, paste it in, and tap **Save key**.
+   API usage is prepaid and separate from a Claude.ai subscription (**Add credits** opens Billing). Web
+   search must be enabled for your organization. If anything's wrong, the banner at the top says so with
+   a one-tap fix.
+3. In the **Device** card, tap **Fix** on every row: notifications, battery unrestricted, precise alarms.
+   Samsung aggressively kills background work; this is the difference between a live widget and a stale one.
+4. Your first brief arrives within about a minute. The live preview at the top of the app shows exactly
+   what the lock screen shows.
 
 ## 3. Put it on the lock screen
 
@@ -70,11 +72,18 @@ There are three routes. Use whichever your One UI build allows. The settings scr
 - **B. Good Lock → LockStar** (works on any Galaxy). Install *Good Lock* from the Galaxy Store and add the
   *LockStar* module. Turn it on, tap the lock-screen preview, then **Add widget → Cannuran Pulse**. Size it to
   about 4×3 for the full view, or 4×1–2 for a slim strip.
-- **C. The lock-screen card** (no setup). Leave **Persistent lock-screen card** on. Also make sure *Settings →
+- **C. The lock-screen card** (no setup). Leave **Lock-screen card** on. Also make sure *Settings →
   Notifications → Lock screen notifications* is set to show content.
 
-The widget adapts to its size. Small shows the header, bias, next release and the top headline. Medium adds
-quotes and 3 headlines. Large shows 5 headlines plus the watch list.
+The widget adapts to its size:
+
+- **Slim strip** (about 4×2): risk pill, CCH badge, one-line bias, and the next release with its countdown.
+- **Standard** (about 4×4): adds the risk meter, quote tiles with intraday sparklines, and the top headline.
+- **Full panel** (taller): adds the headlines section (3 tiles, each with an impact bar, a Bull/Bear pill and
+  a NEW badge), the watch list, and the freshness footer.
+
+Three looks, under **Widget look** in the app: **Midnight** (solid, maximum contrast), **Glass** (your
+wallpaper shows through) and **Material You** (follows your wallpaper's colours on Android 12+).
 
 ## 4. Schedule and cost
 
@@ -113,8 +122,8 @@ Everything that shapes the brief can be edited in the app:
   CPI, Non-Farm, NFP, Fed Chair, PCE, Core PCE).
 - **Quote symbols** use Yahoo syntax, e.g. `NQ=F, ES=F, ^VIX, CL=F, ^TNX, DX-Y.NYB`.
 - **Calendar currencies** (default `USD`) and whether Medium-impact releases are included.
-- **Model, cadences, active window, look-back hours, searches per brief, heads-up/post-release timing,
-  translucent background.**
+- **Model, widget look, cadences, active window, look-back hours, searches per brief, and heads-up /
+  post-release timing.** Everything saves automatically as you change it.
 
 ## 6. How it works
 
@@ -139,7 +148,7 @@ Everything that shapes the brief can be edited in the app:
 ```
 app/src/main/java/capital/cannuran/pulse/
   core/        platform-free logic: Json, Models, Settings/Cost, Calendar + MarketClock, Cadence,
-               Prompt, ClaudeProtocol, BriefParser + Novelty, Quotes, Format, RefreshEngine
+               Prompt, ClaudeProtocol, BriefParser + Novelty, Quotes + Sparkline, Format, RefreshEngine
   data/        Store (prefs), SecretBox (Keystore AES-GCM), AndroidHttp
   work/        RefreshWorker, Scheduler, EventAlarms, BootReceiver
   widget/      PulseWidgetProvider, WidgetRenderer
@@ -151,7 +160,7 @@ tools/         run-core-tests.sh, check-android-compile.sh, Android API stubs, J
 
 ## 7. Tests
 
-- `./gradlew testDebugUnitTest` runs 46 JUnit tests covering:
+- `./gradlew testDebugUnitTest` runs 52 JUnit tests covering:
   - JSON round-trips
   - calendar parsing, filtering and CCH arming, including the CME trading-day rollover
   - session clock across EST, the maintenance break and weekends
@@ -159,7 +168,8 @@ tools/         run-core-tests.sh, check-android-compile.sh, Android API stubs, J
   - brief parsing: fences, prose, braces inside strings, duplicates, bad URLs, future timestamps, novelty
   - Claude request shape: cached system prompt, tool, max_uses, context
   - `pause_turn` resumption
-  - API error mapping, graceful degradation, alert selection, persistence, and cost
+  - API error mapping (including exhausted credit), graceful degradation, alert selection, persistence, and cost
+  - sparkline downsampling and geometry, and widget-theme migration
 - `tools/run-core-tests.sh` runs the same tests with nothing but a JDK and a Gradle distribution (no Android
   SDK, no network).
 - `tools/check-android-compile.sh` type-checks the Android layer against API stubs, for fast feedback without
@@ -187,7 +197,7 @@ tools/         run-core-tests.sh, check-android-compile.sh, Android API stubs, J
 | `Out of API credits` | API usage is prepaid and separate from a Claude.ai subscription. Add credits (and ideally auto-reload) in the Claude Console → Billing for the same organization as the key, then tap Refresh |
 | `Enable web search for your org…` | Turn on web search in the Claude Console |
 | `Rate limited` / `overloaded` | Nothing to do. The next cycle retries and the previous brief stays on screen |
-| `STALE · Updated …` | Battery optimisation is killing refreshes. Tap *Disable battery optimisation*, or set Battery → Unrestricted |
+| `STALE · …` in the footer | Battery optimisation is killing refreshes. In Pulse → Device, tap **Fix** on Battery |
 | Card missing on lock screen | Allow notifications, and set Lock screen notifications to show content |
 | Widget not listed on the lock screen | Use Good Lock → LockStar, or rely on the lock-screen card |
 | `Calendar: …` errors | The ForexFactory feed is rate-limited or down. Briefs still work; the calendar retries hourly |

@@ -2,19 +2,26 @@
 <resources>
     <color name="pulse_bg">#FF0B0F14</color>
     <color name="pulse_surface">#FF141A22</color>
-    <color name="pulse_gold">#FFC9A227</color>
-    <color name="text_primary">#FFF5F7FA</color>
-    <color name="text_secondary">#FFCBD2D9</color>
-    <color name="text_muted">#FF8A94A3</color>
+    <color name="pulse_gold">#FFE3B341</color>
+    <color name="text_primary">#FFF2F4F8</color>
+    <color name="text_secondary">#FFB6BFCC</color>
+    <color name="text_muted">#FF7D8796</color>
     <color name="divider">#26FFFFFF</color>
     <color name="chip_dark_text">#FF14110A</color>
-    <color name="up">#FF48BB78</color>
-    <color name="down">#FFF56565</color>
+    <color name="up">#FF3DDC97</color>
+    <color name="down">#FFFF6B6B</color>
     <color name="risk_low">#FF1F7A4D</color>
     <color name="risk_elevated">#FFB7791F</color>
     <color name="risk_high">#FFC53030</color>
-    <color name="impact_high">#FFF56565</color>
-    <color name="impact_med">#FFECC94B</color>
+    <color name="impact_high">#FFFF6B6B</color>
+    <color name="impact_med">#FFFFB547</color>
     <color name="impact_low">#FF718096</color>
-    <color name="stale">#FFECC94B</color>
+    <color name="stale">#FFFFB547</color>
+    <color name="risk_low_fg">#FF3DDC97</color>
+    <color name="risk_elev_fg">#FFFFB547</color>
+    <color name="risk_high_fg">#FFFF5C5C</color>
+    <color name="on_accent">#FF14110A</color>
+    <color name="app_bg">#FF080B11</color>
+    <color name="card_bg">#FF111722</color>
+    <color name="field_bg">#FF0A0E15</color>
 </resources>

@@ -11,7 +11,7 @@ the user's own API key. No backend. See README.md for the full feature, cost and
 
 ## Status (2026-11-06)
 - Repo: github.com/Daren-Wallace/cannuran-pulse (`main`). CI is green on ubuntu-24.04 with the runner's
-  preinstalled Android SDK: 46 unit tests pass, and a signed release APK is published on every push.
+  preinstalled Android SDK: 52 unit tests pass, and a signed release APK is published on every push.
 - Install link (always latest): https://github.com/Daren-Wallace/cannuran-pulse/releases/latest/download/CannuranPulse.apk
 - Not yet verified on device:
   - One UI 8 native lock-screen listing (otherwise use Good Lock → LockStar)
@@ -48,6 +48,18 @@ the user's own API key. No backend. See README.md for the full feature, cost and
   `ActionReceiver`.
 - `ui/SettingsActivity`: plain `android.app.Activity` + XML; status, preview, key, schedule, focus,
   permission buttons.
+
+## Design (v2 "modern", 2026-11-07)
+- Widget: a 28dp glass card with a header (mark, PULSE, session pill, refresh), bias hero, 3-segment
+  risk meter, CCH badge, a gold "next release" card with a live Chronometer countdown, quote tiles with
+  sparkline bitmaps, and headline tiles (impact bar, Bull/Bear pill, NEW badge). The footer shows the
+  model or error and freshness.
+- Themes (`WidgetTheme`): MIDNIGHT, GLASS, DYNAMIC (Material You via `@android:color/system_*` in
+  `drawable-v31` / `color-v31`, with an accent from `system_accent1_200`).
+- App: header, live widget preview (`WidgetRenderer.views(..).apply()`), stat tiles, a one-issue
+  banner, and cards with segmented controls and custom switches. Settings autosave (debounced); there
+  is no Save button.
+- Design reference: `docs/widget-preview.png`.
 
 ## Conventions
 - Keep logic in `core/` with tests in `app/src/test/.../core/`. Android classes stay thin.

@@ -139,9 +139,11 @@ data class Quote(
     val label: String,
     val price: Double,
     val changePct: Double?,
+    /** Recent intraday closes (oldest → newest), downsampled for the widget sparkline. */
+    val spark: List<Double> = emptyList(),
 ) {
     fun toMap(): Map<String, Any?> = linkedMapOf(
-        "symbol" to symbol, "label" to label, "price" to price, "changePct" to changePct,
+        "symbol" to symbol, "label" to label, "price" to price, "changePct" to changePct, "spark" to spark,
     )
 
     companion object {
@@ -150,6 +152,7 @@ data class Quote(
             label = m.str("label").orEmpty(),
             price = m.num("price") ?: 0.0,
             changePct = m.num("changePct"),
+            spark = m.arr("spark").mapNotNull { (it as? Number)?.toDouble() },
         )
     }
 }

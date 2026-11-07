@@ -4,6 +4,7 @@ package android.content
 open class Context {
     open val packageName: String get() = ""
     open val applicationContext: Context get() = this
+    open val resources: android.content.res.Resources get() = android.content.res.Resources()
     open fun getString(id: Int): String = ""
     open fun getColor(id: Int): Int = 0
     open fun <T> getSystemService(c: Class<T>): T? = null
